@@ -1,0 +1,54 @@
+@header-height:10%;
+.login{
+  display: flex;
+  flex-direction: column;
+  height: 100% ;
+  background-color: pink;
+  .login-header{
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    padding: 0 50px;
+
+    height: @header-height;
+    background-color: #1e5371c5;
+    line-height:100%;
+    color: #fff;
+    .logo{
+      height: 80px;
+    }
+  }
+  .login-content{
+    z-index: 1;
+    position: relative;
+    flex: 8;
+    text-align: center;
+    margin-top: 4.25rem;
+   .login-card{
+    display: inline-block;
+    width:35%;
+    min-width:400px ;
+    aspect-ratio: 4/3;
+    background-color: #fff;
+    padding: 20px 40px;
+    h1{ 
+      font-size: 1.625rem;
+      font-weight: 600;
+    }
+   }
+    
+  }
+  .mask{
+    z-index: 0;
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.751);
+    height: 100%;
+    width: 100%;
+    filter: blur(8px);
+    background: url('../../assets/images/bg.jpg');
+
+  }
+}
