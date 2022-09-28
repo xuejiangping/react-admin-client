@@ -1,10 +1,18 @@
 import { LockOutlined,UserOutlined } from '@ant-design/icons';
-import { Button,Checkbox,Form,Input } from 'antd';
-import React from 'react';
+import { Button,Checkbox,Form,Input,message } from 'antd';
+import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import $axios from '../api/http';
+
+
 
 const App = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ',values);
+  const navigate = useNavigate()
+  const onFinish = async (values) => {
+    const { status,msg } = await $axios('/api/login')
+    if (status === 0) return message.error('登录失败')
+    message.success(msg)
+    navigate('home')
   };
 
   return (
