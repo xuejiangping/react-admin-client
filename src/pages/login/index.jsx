@@ -9,13 +9,12 @@ import { useDispatch,useSelector } from 'react-redux'
 import { login } from '@/redux/slices/login-slice.js';
 /* 登录路由组件 */
 export default function Login() {
-
   const { isLogin } = useSelector(({ loginReducer }) => loginReducer)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   // 若登录信息，跳转到主页
   useEffect(() => {
-    if (isLogin) navigate('/home')
+    if (isLogin) navigate('/admin')
   })
   // 登录处理函数
   const handleSubmit = async (values) => {
