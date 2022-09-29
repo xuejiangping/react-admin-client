@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 const loginSlice = createSlice({
   name: 'loginStatus',
-  initialState: { value: false },
+  initialState: { isLogin: false,data: null },
   reducers: {
-    login(state,) {
-      state.value = true
+    login(state,action) {
+      state.isLogin = true
+      state.data = action.payload
     },
     logout(state) {
-      state.value = false
+      state.isLogin = false
+      state.data = null
     }
   }
 })

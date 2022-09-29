@@ -1,7 +1,7 @@
 
 import { lazy } from 'react'
 const Login = lazy(() => import('../pages/login/'))
-const Home = lazy(() => import('../pages/home/'))
+const Home = lazy(() => import('../pages/admin'))
 
 const rules = [
   { path: '',element: <Login /> },
