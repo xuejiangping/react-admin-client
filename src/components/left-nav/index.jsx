@@ -21,37 +21,27 @@ function getItem(label,key,icon,children,type) {
   return { key,icon,children,label,type };
 }
 const items = [
-  getItem('首页','1',<HomeOutlined />),
-  getItem('商品','2',<ShoppingCartOutlined />,
-    [getItem('品类管理','sub1'),getItem('商品管理','sub2')]),
-  getItem('用户管理','3',<UserOutlined />),
-  getItem('角色管理','4',<MailOutlined />),
-  getItem('图形图表','5',<AreaChartOutlined />,
-    [getItem('柱形图','sub3',<BarChartOutlined />),
-    getItem('折线图','sub4',<LineChartOutlined />),
-    getItem('饼图','sub5',<PieChartOutlined />)]),
+  getItem('首页','home',<HomeOutlined />),
+  getItem('商品','product',<ShoppingCartOutlined />,
+    [getItem('品类管理','category-manage'),
+    getItem('商品管理','product-manage')]),
+  getItem('用户管理','user',<UserOutlined />),
+  getItem('角色管理','role',<MailOutlined />),
+  getItem('图形图表','chart',<AreaChartOutlined />,
+    [getItem('柱形图','column-chart',<BarChartOutlined />),
+    getItem('折线图','line-chart',<LineChartOutlined />),
+    getItem('饼图','pie-chart',<PieChartOutlined />)]),
 ]
 //#endregion
 
-//#region 路由字典
-const ROUTE_KEY_MAP = {
-  1: 'home',
-  3: 'user',
-  4: 'role',
-  sub1: 'category-manage',
-  sub2: 'product-manage',
-  sub3: 'column-chart',
-  sub4: 'line-chart',
-  sub5: 'pie-chart',
-}
-//#endregion
+
+
 export default function LeftNav(props) {
   const navigate = useNavigate()
   const { toggleCollapsed,collapsed } = props
   const fontSize = collapsed ? '14px' : '26px'
   function handleNavigation({ key }) {
-    const toPath = ROUTE_KEY_MAP[key]
-    navigate(toPath)
+    navigate(key)
   }
   return (
     <div className='sider'>
