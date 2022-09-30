@@ -7,6 +7,6 @@ export function saveUser(data) {
 export function getUser() {
   return JSON.parse(localStorage.getItem(USER_KEY)) || {}
 }
-export function removeUse() {
+export function removeUser() {
   localStorage.removeItem(USER_KEY)
 }

@@ -1,5 +1,5 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React,{ useEffect } from 'react'
+import { useNavigate,useLocation } from 'react-router-dom';
 import './index.less';
 import { Button,Menu } from 'antd';
 import {
@@ -34,12 +34,30 @@ const items = [
 ]
 //#endregion
 
-
+//根据当前路径 配对
+function getKeys(items,pathname) {
+  console.log(14)
+  const selectedKey = [],
+    openKey = getOpenKey(items)?.key
+  function getOpenKey(items) {
+    return items.find(item => {
+      const { children,key } = item
+      return children ? getOpenKey(children) :
+        pathname.includes(key) ? !!selectedKey.push(key) : false
+    })
+  }
+  return { selectedKey,openKey }
+}
 
 export default function LeftNav(props) {
+
+  const { pathname } = useLocation()
   const navigate = useNavigate()
   const { toggleCollapsed,collapsed } = props
   const fontSize = collapsed ? '14px' : '26px'
+  const { selectedKey,openKey } = getKeys(items,pathname)
+
+
   function handleNavigation({ key }) {
     navigate(key)
   }
@@ -47,12 +65,11 @@ export default function LeftNav(props) {
     <div className='sider'>
       <h1 className='title' style={{ fontSize }}>后台管理 </h1>
       <Menu
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        defaultSelectedKeys={selectedKey}
+        defaultOpenKeys={[openKey]}
         mode="inline"
         onClick={handleNavigation}
         theme="dark"
-        // inlineCollapsed={collapsed}
         items={items}
       />
       <Button type='link' style={{ backgroundColor: '#0f2640' }}
@@ -64,4 +81,5 @@ export default function LeftNav(props) {
     </div>
   )
 }
+
 
