@@ -23,10 +23,10 @@ export default function Home() {
         <LeftNav toggleCollapsed={toggleCollapsed} collapsed={collapsed}></LeftNav>
       </Sider>
       <Layout>
-        <Header style={{ backgroundColor: '#fff',minHeight: '100px' }}>
+        <Header style={{ minHeight: '100px' }}>
           <HeaderBar />
         </Header>
-        <Content style={{ backgroundColor: 'pink' }}>
+        <Content style={{ padding: '10px',backgroundColor: '#f0f2f3' }}>
           <Suspense>
             <Outlet></Outlet>
           </Suspense>

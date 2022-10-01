@@ -1,4 +1,6 @@
 import { mock,Random } from 'mockjs'
+window.mock = mock
+
 // 自定义Mock.Random 中的模板数据
 Random.extend({
   constellation: function (date) {
@@ -16,4 +18,24 @@ mock('/api/login',{
     picUrl: mock('@image')
   }
 })
-window.mock = mock
+
+
+
+mock('/api/cat-list',{
+  'status|0-1': 1,msg: 'ok',
+  'data|10-20': [
+    {
+      cat: '@cword(2,5)',
+      'key|+1': 1,
+      actions: ['修改分类','查看子分类'],
+      'subCat|3-6': [
+        {
+          cat: '@cword(2,4)',
+          'key|+1': 1,
+          actions: ['修改分类']
+        }
+      ]
+    },
+  ],
+
+})

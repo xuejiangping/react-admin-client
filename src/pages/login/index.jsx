@@ -1,8 +1,8 @@
-import React,{ useEffect } from 'react'
+import React from 'react'
 import './index.less'
 import LoginForm from '@/components/login-form/Login-Form.jsx'
 import { message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Navigate } from 'react-router-dom';
 import $axios from '../../api/http';
 import { saveUser } from '@/utils/storageUtil.js';
 import { useDispatch,useSelector } from 'react-redux'
@@ -12,10 +12,7 @@ export default function Login() {
   const { isLogin } = useSelector(({ loginReducer }) => loginReducer)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // 若登录信息，跳转到主页
-  useEffect(() => {
-    if (isLogin) navigate('/admin')
-  })
+  if (isLogin) return <Navigate to='/admin' />
   // 登录处理函数
   const handleSubmit = async (values) => {
     const { status,msg,data } = await $axios('/api/login')
@@ -33,7 +30,6 @@ export default function Login() {
       <div className='mask'></div>
       <header className='login-header' >
         <div> 当前项目：后台管理系统</div>
-        <span>---- {isLogin ? 'true' : 'false'}</span>
       </header>
       <section className='login-content'>
         <div className='login-card'>

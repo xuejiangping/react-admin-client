@@ -14,10 +14,11 @@ import {
   PieChartOutlined,
   LineChartOutlined
 } from '@ant-design/icons';
-
-
+// key label 的映射关系数组
+const key_label_map = []
 //#region 该数据映射边栏导航菜单结构
 function getItem(label,key,icon,children,type) {
+  key_label_map.push({ label,key })
   return { key,icon,children,label,type };
 }
 const items = [
@@ -36,7 +37,6 @@ const items = [
 
 //根据当前路径 配对
 function getKeys(items,pathname) {
-  console.log(14)
   const selectedKey = [],
     openKey = getOpenKey(items)?.key
   function getOpenKey(items) {
@@ -57,15 +57,15 @@ export default function LeftNav(props) {
   const fontSize = collapsed ? '14px' : '26px'
   const { selectedKey,openKey } = getKeys(items,pathname)
 
-
   function handleNavigation({ key }) {
-    navigate(key)
+    const { label } = key_label_map.find(v => v.key === key)
+    navigate(key + '?title=' + label)
   }
   return (
     <div className='sider'>
       <h1 className='title' style={{ fontSize }}>后台管理 </h1>
       <Menu
-        defaultSelectedKeys={selectedKey}
+        defaultSelectedKeys={selectedKey || ['home']}
         defaultOpenKeys={[openKey]}
         mode="inline"
         onClick={handleNavigation}

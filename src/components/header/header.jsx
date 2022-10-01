@@ -1,43 +1,52 @@
 import React,{ useEffect,useState } from 'react'
 import './index.less';
-import { Row,Col } from 'antd';
+import { Row,Col,Button,Avatar } from 'antd';
 import { useStore } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { logout } from '@/redux/slices/login-slice.js';
 import { removeUser } from '@/utils/storageUtil.js';
 import $axios from '@/api/http.js';
 export default function Header() {
   const { dispatch,getState } = useStore()
-  const { name } = getState().loginReducer.data
+  const { name,picUrl } = getState().loginReducer.data
   const url = '/api/weather/city/101030100'
   const [weather,setWeather] = useState('未知')
-  const time = new Date().toLocaleString()
+  // console.log(useSearchParams()[0])
+  const title = useSearchParams()[0].get('title')
+  let time = new Date().toLocaleString()
   function handleLogout() {
-    removeUser()
-    dispatch(logout())
+    if (window.confirm('确定要退出登录吗？')) {
+      removeUser()
+      dispatch(logout())
+    }
   }
-  useEffect(() => {
+  function getWeather() {
     $axios(url).then(({ data }) => {
-
       setWeather(data.forecast[0])
     })
+  }
+  useEffect(() => {
+    getWeather()
   },[])
-
   return (
     <div className='header' style={{ lineHeight: '50px' }}>
-      <Row justify='end'>
+      <Row justify='end' gutter={10}>
+        <Col><span>{name}</span></Col>
         <Col>
-          <span>欢迎 {name} </span>
-          <NavLink style={{ color: 'blue' }} onClick={handleLogout} to='/login'>退出</NavLink>
+          <Avatar src={picUrl}></Avatar>
         </Col>
+        <Col>
+          <Button type='link' onClick={handleLogout}>退出</Button>
+        </Col>
+
       </Row>
       <hr />
       <Row justify='space-between'>
-        <Col className='head-bottom-le'>首页</Col>
+        <Col className='head-bottom-le'>{title}</Col>
         <Col className='head-bottom-ri' >
           <span>{time}</span>
           <span>{weather.type}</span>
-          <span>{weather.notice}</span>
+          <span>{weather.week}</span>
         </Col>
       </Row>
     </div>

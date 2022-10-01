@@ -5,7 +5,7 @@ export default function http(url,data,method = 'get') {
   return new Promise(res => {
     axios({
       url,method,
-      baseURL: 'http://localhost:3000',
+      // baseURL: 'http://localhost:3000',
       [method === 'get' ? 'params' : 'data']: data,
     }).then(({ data }) => res(data))
       .catch(err => {

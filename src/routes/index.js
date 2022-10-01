@@ -1,5 +1,6 @@
 
 import { lazy } from 'react'
+import { Navigate } from 'react-router-dom'
 const Login = lazy(() => import('../pages/login/'))
 const Admin = lazy(() => import('../pages/admin'))
 const Home = lazy(() => import('../pages/home/home'))
@@ -14,11 +15,11 @@ const PieChart = lazy(() => import('../pages/chart/pie'))
 /* 配置路由 */
 
 const rules = [
-  { path: '',element: <Login /> },
+  { path: '',element: <Navigate to='login' /> },
   { path: 'login',element: <Login /> },
   {
     path: 'admin',element: <Admin />,children: [
-      { path: '',element: <Home /> },
+      { path: '',element: <Navigate to='home?title=首页' /> },
       { path: 'home',element: <Home /> },
       { path: 'category-manage',element: <Category /> },
       { path: 'product-manage',element: <Product /> },
