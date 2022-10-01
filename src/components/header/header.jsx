@@ -21,7 +21,6 @@ export default function Header() {
 
       setWeather(data.forecast[0])
     })
-    console.log(weather)
   },[])
 
   return (
@@ -34,7 +33,7 @@ export default function Header() {
       </Row>
       <hr />
       <Row justify='space-between'>
-        <Col span={2} className='head-bottom-le'>首页</Col>
+        <Col className='head-bottom-le'>首页</Col>
         <Col className='head-bottom-ri' >
           <span>{time}</span>
           <span>{weather.type}</span>
