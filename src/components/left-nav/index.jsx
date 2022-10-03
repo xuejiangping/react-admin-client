@@ -35,7 +35,7 @@ const items = [
 ]
 //#endregion
 
-//根据当前路径 配对
+//根据当前路径;找到 当前选中项 
 function getKeys(items,pathname) {
   const selectedKey = [],
     openKey = getOpenKey(items)?.key
@@ -43,7 +43,7 @@ function getKeys(items,pathname) {
     return items.find(item => {
       const { children,key } = item
       return children ? getOpenKey(children) :
-        pathname.includes(key) ? !!selectedKey.push(key) : false
+        pathname.split('/').includes(key) ? !!selectedKey.push(key) : false
     })
   }
   return { selectedKey,openKey }
@@ -56,16 +56,15 @@ export default function LeftNav(props) {
   const { toggleCollapsed,collapsed } = props
   const fontSize = collapsed ? '14px' : '26px'
   const { selectedKey,openKey } = getKeys(items,pathname)
-
   function handleNavigation({ key }) {
     const { label } = key_label_map.find(v => v.key === key)
-    navigate(key + '?title=' + label)
+    navigate(key,{ state: { label } })
   }
   return (
     <div className='sider'>
       <h1 className='title' style={{ fontSize }}>后台管理 </h1>
       <Menu
-        defaultSelectedKeys={selectedKey || ['home']}
+        selectedKeys={selectedKey}
         defaultOpenKeys={[openKey]}
         mode="inline"
         onClick={handleNavigation}

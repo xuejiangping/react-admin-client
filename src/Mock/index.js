@@ -20,22 +20,33 @@ mock('/api/login',{
 })
 
 
-
+//商品目录
 mock('/api/cat-list',{
+
   'status|0-1': 1,msg: 'ok',
   'data|10-20': [
     {
       cat: '@cword(2,5)',
       'key|+1': 1,
-      actions: ['修改分类','查看子分类'],
       'subCat|3-6': [
         {
           cat: '@cword(2,4)',
           'key|+1': 1,
-          actions: ['修改分类']
         }
       ]
     },
   ],
 
+})
+Random.guid()
+//商品管理
+mock('/api/product',{
+  'status|0-1': 1,msg: 'ok',
+  'data|20-30': [{
+    pname: /[\u4E00-\u9FA5\w]{10,20}/,
+    key: '@guid()',
+    desc: '@cparagraph(1,3)',
+    price: '@natural(3000,20000)'
+
+  }]
 })

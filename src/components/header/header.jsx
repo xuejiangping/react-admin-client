@@ -2,7 +2,7 @@ import React,{ useEffect,useState } from 'react'
 import './index.less';
 import { Row,Col,Button,Avatar } from 'antd';
 import { useStore } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { logout } from '@/redux/slices/login-slice.js';
 import { removeUser } from '@/utils/storageUtil.js';
 import $axios from '@/api/http.js';
@@ -11,8 +11,7 @@ export default function Header() {
   const { name,picUrl } = getState().loginReducer.data
   const url = '/api/weather/city/101030100'
   const [weather,setWeather] = useState('未知')
-  // console.log(useSearchParams()[0])
-  const title = useSearchParams()[0].get('title')
+  const title = useLocation().state?.label || '首页'
   let time = new Date().toLocaleString()
   function handleLogout() {
     if (window.confirm('确定要退出登录吗？')) {
