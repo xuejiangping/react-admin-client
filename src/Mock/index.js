@@ -38,15 +38,19 @@ mock('/api/cat-list',{
   ],
 
 })
-Random.guid()
+// Random.csentence(1,2)
+Random.natural()
 //商品管理
 mock('/api/product',{
   'status|0-1': 1,msg: 'ok',
   'data|20-30': [{
-    pname: /[\u4E00-\u9FA5\w]{10,20}/,
+    pname: '@cword(10,20)@integer(100,1000)',
     key: '@guid()',
+    'onsale|1': true,
     desc: '@cparagraph(1,3)',
-    price: '@natural(3000,20000)'
-
+    price: '@natural(3000,20000)',
+    'category|2': ['@cword(2,5)'],
+    'picUrl|2-3': ['@image("300x180",@color())'],
+    'detail|2-4': `<p>${'@csentence(10,15)'}</p>`
   }]
 })

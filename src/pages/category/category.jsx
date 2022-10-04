@@ -35,14 +35,14 @@ export default function Category() {
       key: 'action',
       dataIndex: 'action',
       width: '40%',
-      render(_,{ key,cat }) {
+      render(_,item) {
         return (
           <>
             <Button
-              onClick={() => editCat(key,cat)}
+              onClick={() => editCat(item)}
               type='link'>修改分类</Button>
             {currentType === 0 && <Button
-              onClick={() => showSubCat(key)}
+              onClick={() => showSubCat(item)}
               type='link'>查看子分类</Button>}
           </>
         )
@@ -69,11 +69,9 @@ export default function Category() {
   )
 
   // 查看子分类
-  function showSubCat(key) {
-    const { subCat } = data.find(v => v.key === key)
+  function showSubCat({ key,subCat }) {
     setSubData(subCat)
     setCurrentType(key)
-
   }
   // 添加分类
   function addCat() {
@@ -81,29 +79,26 @@ export default function Category() {
       setShowStatus(1)
       setResolve(() => res)
     }).then(values => {
+      setShowStatus(0)
       const { catType,catName: cat } = values
       if (catType === 0) {
-        setData(pre => pre.push({ cat,key: cat,subCat: [] }) && pre)
+        setData(data.concat({ cat,key: cat,subCat: [] }))
       } else {
-        setSubData(pre => pre.push({ cat,key: cat }) && pre)
+        setSubData(subData.concat({ cat,key: cat }))
       }
-      setShowStatus(0)
     })
   }
   // 修改分类
-  function editCat(key,currentCat) {
+  function editCat(item) {
     new Promise(res => {
-      setIptText(currentCat)  //让输入框显示当前分类名
+      setIptText(item.cat)  //让输入框显示当前分类名
       setShowStatus(2)
       setResolve(() => res)
     }).then(text => {
+      item.cat = text
       setShowStatus(0)
-      if (currentType === 0) {
-        setData(pre => pre.map(v => v.key === key ? (v.cat = text) && v : v))
-      } else {
-        setSubData(pre => pre.map(v => v.key === key ? (v.cat = text) && v : v))
-      }
-      // console.log(text)
+      currentType === 0 ? setData(data.concat(item)) :
+        setSubData(subData.concat(item))
     })
   }
   const currentData = currentType === 0 ? data : subData
@@ -125,7 +120,6 @@ export default function Category() {
         open={showStatus === 1}
         onCancel={() => setShowStatus(0)}
         onOk={() => addForm.validateFields().then(resolve).catch(err => err)}
-
       >
         <AddForm options={options}
           defaultSelected={currentType}

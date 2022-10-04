@@ -3,7 +3,6 @@ import React,{ useEffect,useState } from 'react'
 import { PlusOutlined,LeftOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom';
 import { Form,Input,Select,Card,Cascader,InputNumber,Upload,Row,Col,Button } from 'antd';
-import $axios from '@/api/http.js';
 import { Editor,} from "react-draft-wysiwyg";
 import { EditorState,convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
@@ -11,7 +10,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 const { Item } = Form
 
 
-export default function Category() {
+export default function Add_Update() {
   const navigate = useNavigate()
   const [editorState,setEditorState] = useState(EditorState.createEmpty())
 
@@ -72,7 +71,7 @@ export default function Category() {
           <Item label='商品详情' >
             <Editor
               editorStyle={{
-                border: '1px solid #c1c1bf',minHeight: 200,
+                border: '1px solid #c1c1bf',minHeight: 150,
                 padding: '0 5px',cursor: 'text'
               }}
               editorState={editorState}
@@ -82,9 +81,8 @@ export default function Category() {
               onEditorStateChange={editorState => setEditorState(editorState)}
             />
           </Item>
-          <Item style={{ padding: '0 20%' }} >
+          <Item style={{ textAlign: 'center' }} >
             <Button
-              block
               type='primary' htmlType='submit'>提交</Button>
           </Item>
         </Form>

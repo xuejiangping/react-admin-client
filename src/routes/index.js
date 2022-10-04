@@ -17,6 +17,7 @@ const PieChart = lazy(() => import('../pages/chart/pie'))
 const Product = lazy(() => import('../pages/product/'))
 const ProductHome = lazy(() => import('../pages/product/home'))
 const AddUpdate = lazy(() => import('../pages/product/add-update'))
+const Detail = lazy(() => import('../pages/product/detail'))
 
 
 /* 配置路由 */
@@ -35,6 +36,8 @@ const rules = [
           { path: '',element: <ProductHome /> },
           { path: 'product-home',element: <ProductHome /> },
           { path: 'add-update',element: <AddUpdate /> },
+          { path: 'detail',element: <Detail /> },
+
         ]
       },
       { path: 'user',element: <User /> },

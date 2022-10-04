@@ -1,5 +1,5 @@
 import React,{ useEffect,useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,NavLink } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 import { Form,Input,Select,Card,Row,Col,Button,Table } from 'antd';
 import $axios from '@/api/http.js';
@@ -7,12 +7,15 @@ const { Item } = Form
 const { Option } = Select
 export default function Category() {
   const [products,setProducts] = useState([])
+  const [originalData,setOriginalData] = useState([])
   const navigate = useNavigate()
   useEffect(() => {
     $axios('/api/product').then(({ data }) => {
+      setOriginalData(data)
       setProducts(data)
     })
   },[])
+
 
   // 表格 列 配置项
   const columns = [
@@ -36,10 +39,13 @@ export default function Category() {
       title: '状态',
       key: 'status',
       dataIndex: 'status',
-      render() {
+      render(_,item) {
+        const { onsale } = item
         return (<>
-          <Button type='primary' style={{ margin: '3px 0' }}>下架</Button>
-          <Button>在售</Button>
+          <Button
+            onClick={() => changeSaleStatus(item)}
+            danger type='primary' style={{ marginBottom: '8px' }}>{onsale ? '下架' : '在售'}</Button>
+          <Button type='text' disabled>{onsale ? '在售' : '下架'}</Button>
         </>)
       }
     },
@@ -47,11 +53,13 @@ export default function Category() {
       title: '操作',
       key: 'action',
       dataIndex: 'action',
-      render(_,{ key,cat }) {
+      render(_,item) {
         return (
           <>
-            <Button type='link'>修改</Button>
-            <Button type='link'>详情</Button>
+            <NavLink style={{ margin: '0 5px' }} to='add-update'>修改</NavLink>
+            <NavLink
+              state={item}
+              style={{ margin: '0 5px' }} to='detail'>详情</NavLink>
           </>
         )
       }
@@ -66,7 +74,7 @@ export default function Category() {
       <Col>
         <Form layout='inline'
           initialValues={{ type: 'byName' }}
-          onFinish={e => console.log(e)}
+          onFinish={filterSearch}
         >
           <Item name='type'>
             <Select >
@@ -85,6 +93,23 @@ export default function Category() {
         icon={<PlusOutlined />}>添加商品</Button></Col>
     </Row>
   )
+  // 改变商品状态
+  function changeSaleStatus(key) {
+    key.onsale = !key.onsale
+    setProducts([...products])
+
+  }
+  // 过滤搜索
+  function filterSearch({ type,keyWord }) {
+
+    let data = type === 'byName' ? originalData.filter(v => v.pname.includes(keyWord))
+      : originalData.filter(v => v.desc.includes(keyWord))
+    setProducts(data)
+  }
+
+
+
+
   return (
     <>
       <Card
