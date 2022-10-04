@@ -22,7 +22,7 @@ export default function Home() {
       <Sider collapsed={collapsed} >
         <LeftNav toggleCollapsed={toggleCollapsed} collapsed={collapsed}></LeftNav>
       </Sider>
-      <Layout>
+      <Layout style={{ overflow: 'auto' }}>
         <Header style={{ minHeight: '100px' }}>
           <HeaderBar />
         </Header>

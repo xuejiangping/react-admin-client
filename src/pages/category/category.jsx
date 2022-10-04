@@ -136,13 +136,10 @@ export default function Category() {
         bordered={false}
         style={{
           width: '100%',
-          height: '100%'
         }}
       >
         <Table
           size='small'
-          style={{ height: '100%' }}
-          scroll={{ y: 400 }}
           columns={columns}
           dataSource={currentData}
         />

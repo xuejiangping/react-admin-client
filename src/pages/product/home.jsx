@@ -85,25 +85,16 @@ export default function Category() {
         icon={<PlusOutlined />}>添加商品</Button></Col>
     </Row>
   )
-
-
-
-
-
-
   return (
     <>
       <Card
         title={title}
         style={{
           width: '100%',
-          height: '100%'
         }}
       >
         <Table
           size='small'
-          style={{ height: '100%' }}
-          scroll={{ y: 400 }}
           columns={columns}
           dataSource={products}
         />

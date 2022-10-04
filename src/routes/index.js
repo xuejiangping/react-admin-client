@@ -3,7 +3,7 @@ import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 const Login = lazy(() => import('../pages/login/'))
 const Admin = lazy(() => import('../pages/admin'))
-const Home = lazy(() => import('../pages/home/home'))
+const Home = lazy(() => import('../pages/home/home.tsx'))
 // 商品目录
 const Category = lazy(() => import('../pages/category/category'))
 
