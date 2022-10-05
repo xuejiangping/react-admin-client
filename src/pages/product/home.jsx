@@ -21,26 +21,24 @@ export default function Category() {
   const columns = [
     {
       title: '商品名称',
-      key: 'pname',
       dataIndex: 'pname',
     },
     {
       title: '商品描述',
-      key: 'desc',
       dataIndex: 'desc',
       width: '30%'
     },
     {
       title: '价格',
-      key: 'price',
       dataIndex: 'price',
+      render(price) {
+        return '￥' + price
+      }
     },
     {
       title: '状态',
-      key: 'status',
-      dataIndex: 'status',
-      render(_,item) {
-        const { onsale } = item
+      dataIndex: 'onsale',
+      render(onsale,item) {
         return (<>
           <Button
             onClick={() => changeSaleStatus(item)}
@@ -51,12 +49,13 @@ export default function Category() {
     },
     {
       title: '操作',
-      key: 'action',
       dataIndex: 'action',
       render(_,item) {
         return (
           <>
-            <NavLink style={{ margin: '0 5px' }} to='add-update'>修改</NavLink>
+            <NavLink
+              state={item}
+              style={{ margin: '0 5px' }} to='add-update'>修改</NavLink>
             <NavLink
               state={item}
               style={{ margin: '0 5px' }} to='detail'>详情</NavLink>
@@ -94,8 +93,8 @@ export default function Category() {
     </Row>
   )
   // 改变商品状态
-  function changeSaleStatus(key) {
-    key.onsale = !key.onsale
+  function changeSaleStatus(item) {
+    item.onsale = !item.onsale
     setProducts([...products])
 
   }
@@ -120,6 +119,7 @@ export default function Category() {
       >
         <Table
           size='small'
+          rowKey='key'
           columns={columns}
           dataSource={products}
         />

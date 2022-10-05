@@ -1,5 +1,9 @@
-import React,{ useEffect } from 'react'
+/** 边栏导航 */
+
+import React from 'react'
+import { useDispatch } from 'react-redux';
 import { useNavigate,useLocation } from 'react-router-dom';
+import { setTitle } from '@/redux/slices/header-title-slice.js';
 import './index.less';
 import { Button,Menu } from 'antd';
 import {
@@ -49,16 +53,20 @@ function getKeys(items,pathname) {
   return { selectedKey,openKey }
 }
 
-export default function LeftNav(props) {
 
+export default function LeftNav(props) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const { toggleCollapsed,collapsed } = props
   const fontSize = collapsed ? '14px' : '26px'
   const { selectedKey,openKey } = getKeys(items,pathname)
+  const dispatch = useDispatch()
+  // 点击导航跳转
   function handleNavigation({ key }) {
     const { label } = key_label_map.find(v => v.key === key)
-    navigate(key,{ state: { label } })
+    navigate(key)
+    dispatch(setTitle(label))
+
   }
   return (
     <div className='sider'>

@@ -1,27 +1,45 @@
-
-import React,{ useEffect,useState } from 'react'
+/* 添加商品 和 更新商品 */
+import React,{ useState,useEffect } from 'react'
 import { PlusOutlined,LeftOutlined } from '@ant-design/icons'
-import { useNavigate } from 'react-router-dom';
-import { Form,Input,Select,Card,Cascader,InputNumber,Upload,Row,Col,Button } from 'antd';
+import { useNavigate,useLocation } from 'react-router-dom';
+import { Form,Input,Card,Cascader,InputNumber,Upload,Button } from 'antd';
 import { Editor,} from "react-draft-wysiwyg";
 import { EditorState,convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import $axios from '@/api/http.js';
+
 const { Item } = Form
-
-
 export default function Add_Update() {
-  const navigate = useNavigate()
-  const [editorState,setEditorState] = useState(EditorState.createEmpty())
+  const [form] = Form.useForm()
+  const [data,setData] = useState({})  //一级分类数据
 
+  const navigate = useNavigate()
+  const product = useLocation().state  //若有商品信息传入，代表更新
+  const [editorState,setEditorState] = useState(EditorState.createEmpty())
   //Card 组件的标题组件
   const title = (
-    <Button type='link' onClick={() => navigate(-1)}><LeftOutlined />添加商品</Button>
+    <Button type='link' onClick={() => navigate(-1)}><LeftOutlined />
+      {product ? '修改' : '添加'}商品</Button>
   )
-  function onFinished(data) {
+  function onFinished(values) {
     const html = draftToHtml(convertToRaw(editorState.getCurrentContent()))
-    console.log(html,data)
+    console.log(html,values)
+    console.log(form)
   }
+  useEffect(() => {
+    form.setFieldsValue(product)
+    $axios('/api/cat-list').then(({ data }) => {
+      setData({
+        categories: data,
+        options: data.map(({ cat,subCat }) => ({
+          value: cat,label: cat,
+          children: subCat?.map(({ cat }) => ({ value: cat,label: cat }))
+        }))
+      })
+    })
+  },[])
+
 
   return (
     <>
@@ -31,32 +49,21 @@ export default function Add_Update() {
           width: '100%',
         }}
       >
-        <Form style={{ maxWidth: 500 }} onFinish={onFinished}>
-          <Item label="商品名称" name='pname'>
+        <Form form={form} style={{ maxWidth: 500 }} validateMessages='12' onFinish={onFinished}>
+          <Item label="商品名称" name='pname' rules={[{ required: true }]}>
             <Input />
           </Item>
-          <Item label="商品描述" name='desc'>
-            <Input.TextArea style={{ resize: 'none' }} placeholder='请输入商品描述' rows={4} />
+          <Item label="商品描述" name='desc' required>
+            <Input.TextArea style={{ resize: 'none' }} placeholder='请输入商品描述' autoSize />
           </Item>
 
-          <Item label="商品价格" name='price'>
-            <InputNumber addonAfter="￥" />
+          <Item label="商品价格" name='price' required>
+            <InputNumber addonAfter="￥" min={1} />
           </Item>
 
-          <Item label="商品分类" name='cat'>
+          <Item label="商品分类" name='cat' required>
             <Cascader
-              options={[
-                {
-                  value: 'zhejiang',
-                  label: 'Zhejiang',
-                  children: [
-                    {
-                      value: 'hangzhou',
-                      label: 'Hangzhou',
-                    }
-                  ]
-                }
-              ]}
+              options={data.options}
             />
           </Item>
 

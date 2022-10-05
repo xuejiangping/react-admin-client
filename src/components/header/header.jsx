@@ -1,8 +1,7 @@
 import React,{ useEffect,useState } from 'react'
 import './index.less';
 import { Row,Col,Button,Avatar } from 'antd';
-import { useStore } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useStore,useSelector } from 'react-redux';
 import { logout } from '@/redux/slices/login-slice.js';
 import { removeUser } from '@/utils/storageUtil.js';
 import $axios from '@/api/http.js';
@@ -11,22 +10,26 @@ export default function Header() {
   const { name,picUrl } = getState().loginReducer.data
   const url = '/api/weather/city/101030100'
   const [weather,setWeather] = useState('未知')
-  const title = useLocation().state?.label || '首页'
+  const title = useSelector(state => state.headerTitle.title)
+
   let time = new Date().toLocaleString()
+  useEffect(() => {
+    getWeather()
+  },[])
+
   function handleLogout() {
     if (window.confirm('确定要退出登录吗？')) {
       removeUser()
       dispatch(logout())
     }
   }
+  // 请求天气信息
   function getWeather() {
     $axios(url).then(({ data }) => {
       setWeather(data.forecast[0])
     })
   }
-  useEffect(() => {
-    getWeather()
-  },[])
+
   return (
     <div className='header' style={{ lineHeight: '50px' }}>
       <Row justify='end' gutter={10}>
