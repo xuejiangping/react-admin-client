@@ -1,6 +1,7 @@
 import { mock,Random } from 'mockjs'
 window.mock = mock
 
+
 // 自定义Mock.Random 中的模板数据
 Random.extend({
   constellation: function (date) {
@@ -39,7 +40,6 @@ mock('/api/cat-list',{
 
 })
 // Random.csentence(1,2)
-Random.natural()
 //商品管理
 mock('/api/product',{
   'status|0-1': 1,msg: 'ok',
@@ -52,5 +52,38 @@ mock('/api/product',{
     'category|2': ['@cword(2,5)'],
     'picUrl|2-3': ['@image("200x160",@color())'],
     'detail|2-4': `<p>${'@csentence(10,15)'}</p>`
+  }]
+})
+// 图片上传
+mock('/api/upload',{
+  status: 1,
+  data: {
+    name: '@cword(3,6).@pick(jpg,png,icon)',
+    url: '@image("200x160",@color())'
+  }
+})
+
+// 用户管理
+mock('/api/user',{
+  status: 1,
+  'data|5-10': [{
+    key: '@guid()',
+    uname: '@cname()',
+    email: '@email()',
+    tel: /1[346789]\d{9}/,
+    regtime: '@date("yyyy.MM.dd")',
+    'role|1': ['管理员','员工']
+  }]
+})
+
+// 角色管理
+mock('/api/role',{
+  status: 1,
+  'data|3': [{
+    key: '@guid()',
+    'roleName|1': ['管理员','员工','测试'],
+    grantTime: '@date("yyyy.MM.dd")',
+    regtime: '@date("yyyy.MM.dd")',
+    grantor: '@cname()'
   }]
 })
