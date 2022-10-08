@@ -14,9 +14,11 @@ Random.extend({
 mock('/api/mock',{ code: 0,msg: 'ok','star|1-5': '♥' })
 mock('/api/login',{
   'status|0-1': 1,msg: '登录成功',data: {
-    name: mock('@cname'),
-    uid: mock('@id'),
-    picUrl: mock('@image')
+    name: '@cname',
+    uid: '@id',
+    picUrl: '@image("100x100")',
+    menus: ['home','product-manage','role','pie-chart'],
+
   }
 })
 
@@ -72,7 +74,8 @@ mock('/api/user',{
     email: '@email()',
     tel: /1[346789]\d{9}/,
     regtime: '@date("yyyy.MM.dd")',
-    'role|1': ['管理员','员工']
+    'role|1': ['管理员','员工'],
+    menus: ['home','product','product-manage','role','pie-chart'],
   }]
 })
 

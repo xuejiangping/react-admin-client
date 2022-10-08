@@ -11,11 +11,9 @@ export default function Role() {
   const [dataList,setDataList] = useState([])
   const [selectedKey,setSelectedKey] = useState()
   const [addModalOpen,setAddModalOpen] = useState(false)
-  const [rolePowerModalOpen,setRolePowerModalOpen] = useState(false)
-
-
-
-  const addInput = useRef()
+  // const [rolePowerModalOpen,setRolePowerModalOpen] = useState(false)
+  const authModalRef = useRef(null)  //子组件的ref实例
+  const addInputRef = useRef()
   const grantor = useStore().getState().loginReducer.data.name
   useEffect(() => {
     $axios('/api/role').then(({ data }) => {
@@ -25,7 +23,7 @@ export default function Role() {
 
   //创建角色
   function createRole() {
-    const roleName = addInput.current.input.value
+    const roleName = addInputRef.current.input.value
     const date = new Date().toLocaleDateString().replaceAll('/','.')
     const role = {
       key: roleName,
@@ -38,9 +36,7 @@ export default function Role() {
     setAddModalOpen(false)
 
   }
-  // function setRolePower() {
-  // 尼玛死了
-  // }
+
   const title = (
     <>
       <Space>
@@ -48,7 +44,7 @@ export default function Role() {
           onClick={() => setAddModalOpen(true)}
         >创建角色</Button>
         <Button type='primary'
-          onClick={() => setRolePowerModalOpen(true)}
+          onClick={() => { authModalRef.current.setModalOpen(true) }}
           disabled={selectedKey ? false : true}
         >设置角色权限</Button>
       </Space>
@@ -83,13 +79,12 @@ export default function Role() {
       <Modal open={addModalOpen} onCancel={() => setAddModalOpen(false)}
         onOk={createRole} title='添加角色'
       >
-        <label title='角色名称'>角色名称：< Input ref={addInput} /></label>
+        <label title='角色名称'>角色名称：< Input ref={addInputRef} /></label>
       </Modal>
-      <Modal open={rolePowerModalOpen} onCancel={() => setRolePowerModalOpen(false)}
-        onOk={console.log} title='设置角色权限'
-      >
-        <AuthForm selectedUser={dataList.find(v => v.key === selectedKey)} />
-      </Modal>
+
+      {selectedKey && <AuthForm
+        ref={authModalRef}
+        selectedUser={dataList.find(v => v.key === selectedKey)} />}
     </Card>
   )
 }

@@ -1,7 +1,7 @@
 /** 边栏导航 */
 
 import React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useNavigate,useLocation } from 'react-router-dom';
 import { setTitle } from '@/redux/slices/header-title-slice.js';
 import './index.less';
@@ -17,6 +17,8 @@ import { items,key_label_map } from './nav-options'
 function getKeys(items,pathname) {
   const selectedKey = [],
     openKey = getOpenKey(items)?.key
+
+
   function getOpenKey(items) {
     return items.find(item => {
       const { children,key } = item
@@ -35,6 +37,19 @@ export default function LeftNav(props) {
   const fontSize = collapsed ? '14px' : '26px'
   const { selectedKey,openKey } = getKeys(items,pathname)
   const dispatch = useDispatch()
+  const userMenus = useSelector(state => state.loginReducer.data.menus)
+  // let userMenus = ['home','role','pie-chart','product-manage']
+  const menus = items || (function _f(items) {
+    return items.filter(v => {
+      const { key,children } = v
+      debugger
+      if (children) v.children = children.filter(v => userMenus.includes(v.key))
+      return children ? _f(children) : userMenus.includes(key)
+    })
+  })(items)
+
+
+
   // 点击导航跳转
   function handleNavigation({ key }) {
     const { label } = key_label_map.find(v => v.key === key)
@@ -51,7 +66,7 @@ export default function LeftNav(props) {
         mode="inline"
         onClick={handleNavigation}
         theme="dark"
-        items={items}
+        items={menus}
       />
       <Button type='link' style={{ backgroundColor: '#0f2640' }}
         onClick={toggleCollapsed}

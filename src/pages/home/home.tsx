@@ -1,9 +1,15 @@
 import React from 'react'
 
 export default function Home() {
-  const t:string=new Date().toString()
-  console.log(t)
+  
   return (
-    <div>Home</div>
+    <div>
+      <iframe title='aad'
+      width={'100%'}
+      allowFullScreen
+      height={'600'}
+      src='' 
+      frameBorder="0"></iframe>
+    </div>
   )
 }

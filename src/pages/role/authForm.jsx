@@ -1,10 +1,18 @@
-import React,{ useEffect,useState } from 'react'
-import { Form,Input,Tree } from 'antd';
+import React,{ useEffect,useState,forwardRef,useImperativeHandle } from 'react'
+import { Form,Input,Modal,Tree } from 'antd';
 import { items } from '@/components/left-nav/nav-options.js';
 const Item = Form.Item
-export default function AuthForm(props) {
+
+
+export default forwardRef(AuthForm)
+
+function AuthForm(props,authModalRef) {
   const { menus,roleName } = props.selectedUser
   const [checkedKeys,setCheckedKeys] = useState([])
+  const [modalOPen,setModalOpen] = useState(false)
+
+  useImperativeHandle(authModalRef,() => ({ setModalOpen }))
+
   useEffect(() => {
     setCheckedKeys(menus)
   },[menus])
@@ -37,18 +45,26 @@ export default function AuthForm(props) {
 
   }
 
+  // 设置权限
+  function setAuth() {
+    console.log(checkedKeys)
+  }
 
 
   return (
-    < Form>
-      <Item label='角色名称' >
-        <Input disabled value={roleName} />
-      </Item>
-      <Item>
-        <Tree {...tProps}
-        />
-      </Item>
+    <Modal open={modalOPen} onCancel={() => setModalOpen(false)}
+      onOk={setAuth} title='设置角色权限'
+    >
+      < Form>
+        <Item label='角色名称' >
+          <Input disabled value={roleName} />
+        </Item>
+        <Item>
+          <Tree {...tProps}
+          />
+        </Item>
 
-    </Form>
+      </Form>
+    </Modal>
   )
 }
