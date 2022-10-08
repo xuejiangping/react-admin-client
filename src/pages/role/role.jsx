@@ -2,7 +2,7 @@ import React,{ useState,useEffect,useRef } from 'react'
 import { useStore } from 'react-redux';
 import {
   Modal,Input,
-  Space,Radio,Table,Card,Row,Col,Button
+  Space,Radio,Table,Card,Button
 } from 'antd';
 import $axios from '@/api/http.js';
 import AuthForm from './authForm';
@@ -38,9 +38,9 @@ export default function Role() {
     setAddModalOpen(false)
 
   }
-  function setRolePower() {
+  // function setRolePower() {
 
-  }
+  // }
   const title = (
     <>
       <Space>
@@ -71,7 +71,8 @@ export default function Role() {
     <Card title={title} >
       <Radio.Group
         style={{ width: '100%' }}
-        onChange={({ target }) => setSelectedKey(target.value)}>
+        onChange={({ target }) => setSelectedKey(target.value)}
+      >
         <Table
           rowKey='key'
           columns={columns}
@@ -85,9 +86,9 @@ export default function Role() {
         <label title='角色名称'>角色名称：< Input ref={addInput} /></label>
       </Modal>
       <Modal open={rolePowerModalOpen} onCancel={() => setRolePowerModalOpen(false)}
-        onOk={createRole} title='设置角色权限'
+        onOk={console.log} title='设置角色权限'
       >
-        <AuthForm />
+        <AuthForm selectedUser={dataList.find(v => v.key === selectedKey)} />
       </Modal>
     </Card>
   )

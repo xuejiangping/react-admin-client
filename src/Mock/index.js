@@ -80,6 +80,7 @@ mock('/api/user',{
 mock('/api/role',{
   status: 1,
   'data|3': [{
+    menus: ['home','product','product-manage','role','pie-chart'],
     key: '@guid()',
     'roleName|1': ['管理员','员工','测试'],
     grantTime: '@date("yyyy.MM.dd")',
