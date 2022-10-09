@@ -1,8 +1,8 @@
 
-import React,{ useEffect,useState,Fragment } from 'react'
+import React from 'react'
 import { LeftOutlined,RightOutlined } from '@ant-design/icons'
 import { useNavigate,useLocation } from 'react-router-dom';
-import { Card,Button,Row,Col,Descriptions,Image } from 'antd';
+import { Card,Button,Descriptions,Image } from 'antd';
 const { Item } = Descriptions
 const { PreviewGroup } = Image
 
