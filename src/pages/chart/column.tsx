@@ -69,8 +69,11 @@ export default function Column() {
         // data:[]
       },
       grid: {
-        left: '15%',
+        left: '5%',
         top: '15%',
+        containLabel: true,
+        show: true,
+        // backgroundColor: 'silver',
       },
       // 系列图表配置
       series: [
@@ -86,10 +89,10 @@ export default function Column() {
           label: {
             //设置柱子上的标签
             show: true,
-            formatter: '{c}%',
+            formatter: '{c}%', //标签 格式
             position: 'inside',
           },
-          barGap: '30%', //不同系列柱子间的间距,百分比按柱子宽度算
+          // barGap: '-100%', //不同系列柱子间的间距,百分比按柱子宽度算
           barCategoryGap: '20%', //不同系列柱子间的间距,百分比按类目间距算
         },
         {
@@ -97,7 +100,12 @@ export default function Column() {
           type: 'bar',
           data: [10, 20, 34, 30, 23, 43],
           itemStyle: {
-            color: ({ dataIndex }) => color[dataIndex + 2],
+            color: 'none',
+            borderColor: 'blue',
+          },
+          label: {
+            show: true,
+            position: 'right',
           },
         },
       ],
