@@ -11,8 +11,8 @@ const Role = lazy(() => import('../pages/role/role'))
 const User = lazy(() => import('../pages/user/user'))
 // 图形图表
 const Column = lazy(() => import('../pages/chart/column.tsx'))
-const Line = lazy(() => import('../pages/chart/line'))
-const PieChart = lazy(() => import('../pages/chart/pie'))
+const Line = lazy(() => import('../pages/chart/line.tsx'))
+const PieChart = lazy(() => import('../pages/chart/pie.tsx'))
 //产品管理
 const Product = lazy(() => import('../pages/product/'))
 const ProductHome = lazy(() => import('../pages/product/home'))

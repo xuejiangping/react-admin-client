@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Button } from 'antd'
 import * as echarts from 'echarts'
 import type { EChartsOption } from 'echarts'
@@ -8,14 +8,13 @@ import './theme/测试主题-紫色.js'
 const color = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3']
 
 export default function Column() {
-  const mainRef = useRef()
 
   useEffect(() => {
     // 将下载的 主题(json格式) 通过 registerTheme注册后使用
     // echarts.registerTheme('我的主题',require('./theme/测试主题-紫色.json'))
     //======================================================================
     // 基于准备好的dom，初始化echarts实例
-    const myChart = echarts.init(mainRef.current)
+    const myChart = echarts.init(document.getElementById('column') as HTMLElement)
     window.myChart = myChart
     window.onresize = () => myChart.resize()
     // 绘制图表
@@ -121,7 +120,7 @@ export default function Column() {
   const title = <Button>144</Button>
   return (
     <Card title={title}>
-      <div ref={mainRef} style={{ width: '100%', height: 500 }}>
+      <div id='column' className='chartContainer'>
         column
       </div>
     </Card>
