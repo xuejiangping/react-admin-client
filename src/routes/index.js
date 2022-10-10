@@ -10,7 +10,7 @@ const Category = lazy(() => import('../pages/category/category'))
 const Role = lazy(() => import('../pages/role/role'))
 const User = lazy(() => import('../pages/user/user'))
 // 图形图表
-const Column = lazy(() => import('../pages/chart/column'))
+const Column = lazy(() => import('../pages/chart/column.tsx'))
 const Line = lazy(() => import('../pages/chart/line'))
 const PieChart = lazy(() => import('../pages/chart/pie'))
 //产品管理
